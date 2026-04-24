@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VYLEAGUE | THE BLACKBOX ARCHIVE</title>
-    <link href="[https://fonts.googleapis.com/css2?family=Special+Elite&display=swap](https://fonts.googleapis.com/css2?family=Special+Elite&display=swap)" rel="stylesheet">
-    <!-- Library Three.js untuk Background 3D -->
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js](https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js)"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #1a1a1a;
@@ -17,24 +15,12 @@
             --header-height: 100px;
             --shadow-3d: rgba(0, 0, 0, 0.6);
             --light-3d: rgba(255, 255, 255, 0.05);
-            /* Variabel Loading */
+            /* Loading Vars */
             --vyl-nav-green: #90a061; 
             --vyl-grunge-bg: #616a42; 
             --vyl-light-border: #a4ad8a;
             --vyl-dark-text: #000000;
             --btn-active-white: #f5f5dc;
-        }
-
-        /* STYLING CANVAS 3D */
-        #canvas-3d {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; 
-            filter: contrast(110%) brightness(40%) sepia(0.2);
-            image-rendering: pixelated;
         }
 
         body::before {
@@ -195,7 +181,7 @@
         .tv-led { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; transition: 0.3s; }
         .tv-led.on { background: #3d5a1a; box-shadow: 0 0 6px #5a8a28; animation: led-pulse 2s infinite; }
 
-        #archives { background: transparent; transition: transform 0.6s cubic-bezier(0.85,0,0.15,1); }
+        #archives { background: #0d0d0d; transition: transform 0.6s cubic-bezier(0.85,0,0.15,1); }
         .archive-lifted { transform: translateY(-102px); }
         .vault-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
@@ -208,7 +194,7 @@
         /* LOADING OVERLAY STYLES */
         #vyl-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('[https://cdn.discordapp.com/attachments/1125373016407285835/1497055587056226304/IMG_0677.jpg?ex=69ec2129&is=69eacfa9&hm=bb287f600eff27910ad3be85fb5ffee886d1d263056bbc7ced76e262bb62e273](https://cdn.discordapp.com/attachments/1125373016407285835/1497055587056226304/IMG_0677.jpg?ex=69ec2129&is=69eacfa9&hm=bb287f600eff27910ad3be85fb5ffee886d1d263056bbc7ced76e262bb62e273)&');
+            background-image: url('https://cdn.discordapp.com/attachments/1125373016407285835/1497055587056226304/IMG_0677.jpg?ex=69ec2129&is=69eacfa9&hm=bb287f600eff27910ad3be85fb5ffee886d1d263056bbc7ced76e262bb62e273&');
             background-size: cover; background-position: center; background-repeat: no-repeat;
             background-color: rgba(0, 0, 0, 0.65); background-blend-mode: multiply;
             z-index: 10001; display: flex; justify-content: center; align-items: center;
@@ -216,7 +202,7 @@
         }
         .vyl-window {
             background-color: var(--vyl-grunge-bg); width: 380px;
-            background-image: url('[https://www.transparenttextures.com/patterns/carbon-fibre.png](https://www.transparenttextures.com/patterns/carbon-fibre.png)');
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
             border-top: 3px solid var(--vyl-light-border); border-left: 3px solid var(--vyl-light-border);
             border-right: 3px solid #000; border-bottom: 3px solid #000;
             box-shadow: 10px 10px 40px rgba(0,0,0,0.85); padding: 2px;
@@ -249,15 +235,12 @@
 </head>
 <body>
 
-<!-- BACKGROUND 3D -->
-<canvas id="canvas-3d"></canvas>
-
 <div class="fixed-nav-container" id="navContainer">
     <header>
         <div class="vyleague-header-title">
             VYLE
             <div class="eye-container">
-                <img src="[https://cdn.discordapp.com/attachments/1125373016407285835/1496877008079163462/IMG_0633.png?ex=69eb7ad9&is=69ea2959&hm=5f9fbf1ebfef8d6a51d6eb0b803cbbe66d1e673436c2e4b79e13ce3da93725e8](https://cdn.discordapp.com/attachments/1125373016407285835/1496877008079163462/IMG_0633.png?ex=69eb7ad9&is=69ea2959&hm=5f9fbf1ebfef8d6a51d6eb0b803cbbe66d1e673436c2e4b79e13ce3da93725e8)&" class="eye-image">
+                <img src="https://cdn.discordapp.com/attachments/1125373016407285835/1496877008079163462/IMG_0633.png?ex=69eb7ad9&is=69ea2959&hm=5f9fbf1ebfef8d6a51d6eb0b803cbbe66d1e673436c2e4b79e13ce3da93725e8&" class="eye-image">
             </div>
             GUE FILES
         </div>
@@ -283,9 +266,9 @@
                         <div class="tv-brand">VYLEAGUE · MODEL VL-01</div>
                         <div class="tv-bezel">
                             <div class="tv-screen" id="screen1">
-                                <div class="tv-static" style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.4\'/%3E%3C/svg%3E');opacity:0.04;z-index:1;pointer-events:none;mix-blend-mode:screen;"></div>
+                                <div class="tv-static" style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.4\'/%3E%3C/svg%3E');opacity:0.04;z-index:1;pointer-events:none;mix-blend-mode:screen;"></div>
                                 <video class="tv-video" id="video1" loop playsinline>
-                                    <source src="[https://files.catbox.moe/4vjvc1.mp4](https://files.catbox.moe/4vjvc1.mp4)" type="video/mp4">
+                                    <source src="https://files.catbox.moe/4vjvc1.mp4" type="video/mp4">
                                 </video>
                                 <div class="tv-off-screen" id="off1">
                                     <div class="tv-off-dot" id="dot1"></div>
@@ -320,7 +303,7 @@
                     <div class="block-title">WELCOME DUDE</div>
                     <div class="featured-content">
                         <div class="featured-img">
-                            <img src="[https://cdn.discordapp.com/attachments/1125373016407285835/1496897857796706465/IMG_0631.jpg?ex=69eb8e44&is=69ea3cc4&hm=60c41ba4682f103e3752a9f1bf2244a691f3386e0084ab45d7f8e4d61f3fe6d4](https://cdn.discordapp.com/attachments/1125373016407285835/1496897857796706465/IMG_0631.jpg?ex=69eb8e44&is=69ea3cc4&hm=60c41ba4682f103e3752a9f1bf2244a691f3386e0084ab45d7f8e4d61f3fe6d4)&" alt="Featured Subject">
+                            <img src="https://cdn.discordapp.com/attachments/1125373016407285835/1496897857796706465/IMG_0631.jpg?ex=69eb8e44&is=69ea3cc4&hm=60c41ba4682f103e3752a9f1bf2244a691f3386e0084ab45d7f8e4d61f3fe6d4&" alt="Featured Subject">
                         </div>
                         <div style="font-size:11px; color:var(--text-white); line-height: 1.6; text-align: justify; margin-top: 5px;">
                             Di dunia yang terdistorsi oleh kebisingan, gue memilih untuk menjadi pengamat. Selamat datang di pusat kendali personal gue.<br><br>
@@ -335,12 +318,12 @@
                 <div class="card" style="transform: rotateY(2deg); border-top: none;">
                     <div class="block-title">RECENT UPLOADS</div>
                     <div class="entry-item">
-                        <div class="square-thumb" style="background-image:url('[https://cdn.discordapp.com/attachments/1125371728378470471/1494597525758545982/IMG_9726.png?ex=69ebc1aa&is=69ea702a&hm=013bc12453315dddec1143efecea8e8f69529af88d80f6f3bf3d1382b55e5c8a](https://cdn.discordapp.com/attachments/1125371728378470471/1494597525758545982/IMG_9726.png?ex=69ebc1aa&is=69ea702a&hm=013bc12453315dddec1143efecea8e8f69529af88d80f6f3bf3d1382b55e5c8a)&');"></div>
+                        <div class="square-thumb" style="background-image:url('https://cdn.discordapp.com/attachments/1125371728378470471/1494597525758545982/IMG_9726.png?ex=69ebc1aa&is=69ea702a&hm=013bc12453315dddec1143efecea8e8f69529af88d80f6f3bf3d1382b55e5c8a&');"></div>
                         <a href="#" style="color:var(--accent-olive);text-decoration:none; font-family:'Special Elite'; font-size: 12px;">VYLEAGUE_ARCHIVE</a>
                         <p style="font-size:10px;color:#555;margin:3px 0;">Selera adalah mutlak.</p>
                     </div>
                     <div class="entry-item" style="border-bottom: none;">
-                        <div class="square-thumb" style="background-image:url('[https://cdn.discordapp.com/attachments/1125371728378470471/1495432111040237568/IMG_0126.png?ex=69ec27ef&is=69ead66f&hm=b444b659076a85cf0fbb0ddd84d082ec0b32f1d9c9fd320251a1ab76f256f16c](https://cdn.discordapp.com/attachments/1125371728378470471/1495432111040237568/IMG_0126.png?ex=69ec27ef&is=69ead66f&hm=b444b659076a85cf0fbb0ddd84d082ec0b32f1d9c9fd320251a1ab76f256f16c)&');"></div>
+                        <div class="square-thumb" style="background-image:url('https://cdn.discordapp.com/attachments/1125371728378470471/1495432111040237568/IMG_0126.png?ex=69ec27ef&is=69ead66f&hm=b444b659076a85cf0fbb0ddd84d082ec0b32f1d9c9fd320251a1ab76f256f16c&');"></div>
                         <a href="#" style="color:var(--accent-olive);text-decoration:none; font-family:'Special Elite'; font-size: 12px;">THE_OPERATOR</a>
                         <p style="font-size:10px;color:#555;margin:3px 0;">Unauthorized Access Detected.</p>
                     </div>
@@ -362,7 +345,7 @@
                     <div class="tv-brand">VYLEAGUE · MODEL VL-02</div>
                     <div class="tv-bezel">
                         <div class="tv-screen" id="screen2">
-                            <img id="img2" src="[https://cdn.discordapp.com/attachments/1125373016407285835/1496997914097221672/IMG_0660.png?ex=69ebeb73&is=69ea99f3&hm=b5fb1ec161ecf22a8a5ad1abb90a121e5b7eb31186762a2158f94d2e7562c823](https://cdn.discordapp.com/attachments/1125373016407285835/1496997914097221672/IMG_0660.png?ex=69ebeb73&is=69ea99f3&hm=b5fb1ec161ecf22a8a5ad1abb90a121e5b7eb31186762a2158f94d2e7562c823)&"
+                            <img id="img2" src="https://cdn.discordapp.com/attachments/1125373016407285835/1496997914097221672/IMG_0660.png?ex=69ebeb73&is=69ea99f3&hm=b5fb1ec161ecf22a8a5ad1abb90a121e5b7eb31186762a2158f94d2e7562c823&"
                                 style="width:100%;height:100%;object-fit:cover;filter:contrast(1.3) brightness(0.75) saturate(0.6) sepia(0.15);animation:tv-flicker 0.12s infinite;position:relative;z-index:1;display:none;">
                             <div class="tv-off-screen" id="off2">
                                 <div class="tv-off-dot" id="dot2"></div>
@@ -416,58 +399,7 @@
 </div>
 
 <script>
-    // --- KONFIGURASI THREE.JS BACKGROUND ---
-    let scene, camera, renderer, knot;
-
-    function init3D() {
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
-        const canvas = document.getElementById('canvas-3d');
-        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        // Downscale resolusi untuk nuansa retro
-        renderer.setPixelRatio(window.devicePixelRatio * 0.4); 
-
-        // TorusKnotGeometry
-        const geometry = new THREE.TorusKnotGeometry(12, 3.5, 100, 16);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x8a9a5b, 
-            wireframe: true,
-            emissive: 0x111111
-        });
-        knot = new THREE.Mesh(geometry, material);
-        scene.add(knot);
-
-        // Pencahayaan
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(10, 10, 10);
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0x333333));
-
-        camera.position.z = 45;
-        animate3D();
-    }
-
-    function animate3D() {
-        requestAnimationFrame(animate3D);
-        if(knot) {
-            knot.rotation.x += 0.005;
-            knot.rotation.y += 0.01;
-            knot.position.y = Math.sin(Date.now() * 0.001) * 1.5;
-        }
-        renderer.render(scene, camera);
-    }
-
-    window.addEventListener('resize', () => {
-        if(camera && renderer) {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-    });
-
-    // --- LOGIKA UTAMA WEBSITE ---
+    // MAIN SITE SCRIPTS
     const tvState = { '1': false, '2': false };
     const muteState = { '1': false };
 
@@ -542,7 +474,7 @@
         document.getElementById('btn-archive').classList.toggle('active-nav', idx === 1);
     }
 
-    // LOADING SCREEN SCRIPT
+    // LOADING SCREEN SCRIPTS
     (function() {
         const bar = document.getElementById('fill-bar');
         const done = document.getElementById('btn-done');
@@ -568,11 +500,6 @@
         overlay.style.opacity = '0';
         setTimeout(() => { overlay.style.display = 'none'; }, 400);
     }
-
-    // Inisialisasi 3D saat window load
-    window.onload = function() {
-        init3D();
-    };
 </script>
 
 </body>
