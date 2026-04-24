@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYLEAGUE | THE BLACKBOX ARCHIVE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --panel-bg: #2b2b2b;
+            --accent-olive: #8a9a5b;
+            --text-gold: #c5b358;
+            --text-white: #d1d1d1;
+            --header-height: 100px;
+            --shadow-3d: rgba(0, 0, 0, 0.6);
+            --light-3d: rgba(255, 255, 255, 0.05);
+            /* Loading Vars */
+            --vyl-nav-green: #90a061; 
+            --vyl-grunge-bg: #616a42; 
+            --vyl-light-border: #a4ad8a;
+            --vyl-dark-text: #000000;
+            --btn-active-white: #f5f5dc;
+        }
+
+        body::before {
+            content: " "; display: block; position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.1) 50%),
+                        linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
+            z-index: 9999; background-size: 100% 3px, 3px 100%; pointer-events: none;
+        }
+
+        body, html {
+            margin: 0; padding: 0; overflow-x: hidden;
+            background-color: var(--bg-color); color: var(--text-white);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            perspective: 1200px;
+        }
+
+        .featured-box, .card, header, nav a {
+            box-shadow: 3px 3px 0px var(--shadow-3d), inset 1px 1px 0px var(--light-3d);
+            border: 1px solid #111;
+            transition: transform 0.2s;
+        }
+
+        .block-title {
+            background: var(--accent-olive);
+            color: #000;
+            padding: 10px 15px;
+            font-family: 'Special Elite', cursive;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            box-shadow: 3px 3px 0px var(--shadow-3d), inset 1px 1px 0px var(--light-3d);
+            border: 1px solid #111;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 5px 0 15px 0;
+            text-align: center;
+        }
+
+        .fixed-nav-container { position: fixed; top: 0; width: 100%; z-index: 1000; transition: transform 0.6s cubic-bezier(0.85,0,0.15,1); }
+        .nav-lifted { transform: translateY(-102px); }
+
+        header {
+            background: linear-gradient(to bottom, #333, #000);
+            padding: 20px; border-bottom: 3px solid var(--accent-olive);
+            display: flex; justify-content: space-between; align-items: center;
+            height: var(--header-height); box-sizing: border-box;
+            transform: rotateX(2deg); transform-origin: top;
+        }
+
+        .vyleague-header-title {
+            font-family: 'Special Elite', cursive; font-size: 2.8rem;
+            color: var(--accent-olive); display: flex; align-items: center;
+            letter-spacing: -2px; 
+            text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5); 
+            transform: translateY(22px);
+        }
+
+        .eye-container { height: 2.2em; width: 2.4em; margin: 0 -5px; display: inline-flex; align-items: center; justify-content: center; position: relative; }
+        .eye-image { height: 100%; filter: grayscale(1) brightness(1.2) contrast(0.8) drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .eye-container::after {
+            content: ""; position: absolute; top: 50.5%; left: 51%;
+            transform: translate(-50%,-50%); width: 14%; height: 14%;
+            background: #000; border-radius: 50%; animation: pupil-blink 6s steps(1) infinite;
+        }
+        @keyframes pupil-blink {
+            0%,90%,100% { transform: translate(-50%,-50%) scaleY(1); }
+            92% { transform: translate(-50%,-50%) scaleY(0); }
+            93% { transform: translate(-50%,-50%) scaleY(1); }
+            95% { transform: translate(-50%,-50%) scaleY(0.2); }
+            96% { transform: translate(-50%,-50%) scaleY(1); }
+        }
+
+        .search-container { display: flex; align-items: center; margin-left: 20px; transform: translateY(22px); perspective: 1000px; }
+        .search-input { 
+            background: #000; border: 2px solid var(--accent-olive); color: var(--accent-olive); 
+            padding: 8px 12px; width: 180px; font-family: 'Special Elite'; outline: none;
+            box-shadow: inset 3px 3px 5px #000, 1px 1px 0px rgba(255,255,255,0.05);
+            transition: all 0.2s;
+        }
+        .search-input:focus { border-color: var(--text-gold); box-shadow: inset 4px 4px 8px #000; }
+        .search-btn { 
+            background: var(--accent-olive); border: 2px solid #111; 
+            padding: 8px 15px; font-weight: bold; cursor: pointer; font-family: 'Special Elite'; color: #000;
+            margin-left: 5px; box-shadow: 3px 3px 0px #000, inset 1px 1px 1px rgba(255,255,255,0.3);
+            transition: all 0.1s;
+        }
+        .search-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px #000; }
+
+        nav { background: var(--accent-olive); display: flex; padding: 5px 20px; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+        nav::-webkit-scrollbar { display: none; }
+        nav a { 
+            color: #000; text-decoration: none; padding: 10px 20px; font-weight: bold; font-size: 14px; 
+            text-transform: uppercase; cursor: pointer; white-space: nowrap; 
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+        }
+        .active-nav { background: #6d7b48; box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); transform: translateY(2px); color: rgba(0,0,0,0.7); }
+
+        .viewport-wrapper { display: flex; width: 200vw; transition: transform 0.8s cubic-bezier(0.85,0,0.15,1); }
+        section { width: 100vw; min-height: 100vh; box-sizing: border-box; }
+        .content-padding { padding-top: 170px; }
+
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        .featured-box { 
+            background: var(--panel-bg); border: 1px solid #444; padding: 20px;
+            transform: rotateY(-3deg);
+            overflow: hidden; 
+        }
+        .featured-content { display: flex; flex-direction: column; gap: 10px; }
+        .featured-img { 
+            width: 100%; aspect-ratio: 4/3; border: 3px solid #111; 
+            background: #111; filter: contrast(1.1) brightness(0.9); overflow: hidden; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+        }
+        .featured-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .card { 
+            background: #222; border-top: 3px solid var(--accent-olive); padding: 15px; font-size: 13px;
+            transform: rotateY(2deg); overflow: hidden;
+        }
+        .entry-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #333; overflow: hidden; }
+        .square-thumb { width: 40px; height: 40px; float: left; margin-right: 10px; border: 1px solid #555; background-size: cover; background-position: center; }
+
+        .tv-card { background: transparent; border: none; padding: 0; transform: rotateY(-5deg); }
+        .tv-body {
+            position: relative; background: #1c1c1c; border-radius: 16px 16px 10px 10px; padding: 18px 18px 12px 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 2px 2px rgba(255,255,255,0.1), 0 0 0 4px #111;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px);
+        }
+        .tv-brand { font-family: 'Special Elite', cursive; font-size: 9px; color: #4a4a4a; letter-spacing: 3px; text-align: center; margin-bottom: 8px; text-transform: uppercase; }
+        .tv-bezel { background: #0d0d0d; border-radius: 10px 10px 6px 6px; padding: 8px; box-shadow: inset 0 0 15px #000; border: 2px solid #111; }
+        .tv-screen { position: relative; width: 100%; aspect-ratio: 4/3; background: #000; border-radius: 6px / 4px; overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.9); }
+        .tv-screen::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 3px); z-index: 4; pointer-events: none; }
+        .tv-off-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 3; display: flex; align-items: center; justify-content: center; transition: opacity 0.1s; }
+        .tv-off-dot { width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px #fff, 0 0 12px #fff; opacity: 0; }
+        .tv-video { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.3) brightness(0.75) saturate(0.6) sepia(0.15); position: relative; z-index: 1; display: none; }
+        .tv-video.playing { display: block; animation: tv-flicker 0.12s infinite; }
+        @keyframes tv-flicker { 0%{opacity:0.93;} 33%{opacity:0.90;} 66%{opacity:0.94;} 100%{opacity:0.91;} }
+        
+        .tv-glitch, .tv-glitch-lines { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 6; pointer-events: none; opacity: 0; }
+        .tv-glitch.active { animation: glitch-burst 0.6s steps(1) forwards; }
+        .tv-glitch-lines.active { animation: glitch-lines 0.6s steps(1) forwards; }
+
+        @keyframes glitch-burst {
+            0%   { opacity:1; clip-path: inset(10% 0 80% 0); transform: translateX(-8px); background: rgba(255,0,0,0.15); }
+            50%  { clip-path: inset(20% 0 40% 0); transform: translateX(6px); background: rgba(0,255,255,0.08); }
+            100% { opacity: 0; transform: translateX(0); }
+        }
+
+        .tv-controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 4px 2px; }
+        .tv-knobs { display: flex; gap: 8px; align-items: flex-start; }
+        .tv-knob, .tv-knob-lg { background: radial-gradient(circle at 35% 35%, #4a4a4a, #111); border-radius: 50%; border: 1px solid #000; box-shadow: 2px 2px 3px #000; position: relative; cursor: pointer; transition: 0.1s; }
+        .tv-knob { width: 16px; height: 16px; }
+        .tv-knob-lg { width: 26px; height: 26px; border-width: 2px; }
+        .tv-led { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; transition: 0.3s; }
+        .tv-led.on { background: #3d5a1a; box-shadow: 0 0 6px #5a8a28; animation: led-pulse 2s infinite; }
+
+        #archives { background: #0d0d0d; transition: transform 0.6s cubic-bezier(0.85,0,0.15,1); }
+        .archive-lifted { transform: translateY(-102px); }
+        .vault-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; height: auto; padding: 15px; gap: 10px; transform: none; }
+            .content-padding { padding-top: 160px; }
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        /* LOADING OVERLAY STYLES */
+        #vyl-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('https://cdn.discordapp.com/attachments/1125373016407285835/1497055587056226304/IMG_0677.jpg?ex=69ec2129&is=69eacfa9&hm=bb287f600eff27910ad3be85fb5ffee886d1d263056bbc7ced76e262bb62e273&');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.65); background-blend-mode: multiply;
+            z-index: 10001; display: flex; justify-content: center; align-items: center;
+            font-family: Arial, sans-serif; transition: opacity 0.4s ease;
+        }
+        .vyl-window {
+            background-color: var(--vyl-grunge-bg); width: 380px;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            border-top: 3px solid var(--vyl-light-border); border-left: 3px solid var(--vyl-light-border);
+            border-right: 3px solid #000; border-bottom: 3px solid #000;
+            box-shadow: 10px 10px 40px rgba(0,0,0,0.85); padding: 2px;
+        }
+        .vyl-header {
+            background: var(--vyl-nav-green); padding: 6px 12px; display: flex;
+            justify-content: center; align-items: center;
+            border-top: 2px solid #ced4b8; border-left: 2px solid #ced4b8;
+            border-right: 3px solid #000; border-bottom: 3px solid #000; margin-bottom: 10px;
+        }
+        .vyl-header-title { color: var(--vyl-dark-text); font-size: 13px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+        .vyl-body { padding: 20px; text-align: center; }
+        #vyl-status { color: #e0e2d5; font-size: 15px; margin-bottom: 20px; font-weight: bold; text-shadow: 1px 1px #000; min-height: 1.2em; }
+        .vyl-dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
+        @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80% { content: '...'; } }
+        .vyl-progress-wrap { height: 28px; background: #1a1e12; border-top: 3px solid #000; border-left: 3px solid #000; border-right: 2px solid var(--vyl-light-border); border-bottom: 2px solid var(--vyl-light-border); padding: 3px; margin-bottom: 10px; }
+        .vyl-fill { height: 100%; width: 0%; background: #081e7d; background-image: linear-gradient(90deg, rgba(0,0,0,0.3) 50%, transparent 50%); background-size: 12px 100%; }
+        .vyl-footer { display: none; justify-content: center; gap: 20px; padding-top: 20px; }
+        .vyl-btn {
+            background-color: var(--vyl-nav-green); color: var(--vyl-dark-text); width: 105px; padding: 7px 0;
+            font-weight: bold; text-align: center; cursor: pointer; user-select: none;
+            border-top: 2px solid #ced4b8; border-left: 2px solid #ced4b8; border-right: 3px solid #000; border-bottom: 3px solid #000;
+        }
+        .vyl-btn:active {
+            background-color: var(--btn-active-white) !important; border-top: 3px solid #000 !important;
+            border-left: 3px solid #000 !important; border-right: 2px solid #fff !important;
+            border-bottom: 2px solid #fff !important; transform: translate(1px, 1px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="fixed-nav-container" id="navContainer">
+    <header>
+        <div class="vyleague-header-title">
+            VYLE
+            <div class="eye-container">
+                <img src="https://cdn.discordapp.com/attachments/1125373016407285835/1496877008079163462/IMG_0633.png?ex=69eb7ad9&is=69ea2959&hm=5f9fbf1ebfef8d6a51d6eb0b803cbbe66d1e673436c2e4b79e13ce3da93725e8&" class="eye-image">
+            </div>
+            GUE FILES
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="SEARCH...">
+            <button class="search-btn">VL</button>
+        </div>
+    </header>
+    <nav id="navLinks">
+        <a id="btn-home" class="active-nav" onclick="toPage(0)">Home</a>
+        <a id="btn-archive" onclick="toPage(1)">Archives</a>
+        <a href="#">Store</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+
+<div class="viewport-wrapper" id="mainSlider">
+    <section id="home" class="content-padding">
+        <div class="main-grid">
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card tv-card">
+                    <div class="tv-body">
+                        <div class="tv-brand">VYLEAGUE · MODEL VL-01</div>
+                        <div class="tv-bezel">
+                            <div class="tv-screen" id="screen1">
+                                <div class="tv-static" style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.4\'/%3E%3C/svg%3E');opacity:0.04;z-index:1;pointer-events:none;mix-blend-mode:screen;"></div>
+                                <video class="tv-video" id="video1" loop playsinline>
+                                    <source src="https://files.catbox.moe/4vjvc1.mp4" type="video/mp4">
+                                </video>
+                                <div class="tv-off-screen" id="off1">
+                                    <div class="tv-off-dot" id="dot1"></div>
+                                </div>
+                                <div class="tv-glitch" id="glitch1"></div>
+                                <div class="tv-glitch-lines" id="glitchlines1"></div>
+                            </div>
+                        </div>
+                        <div class="tv-controls">
+                            <div class="tv-speaker">
+                                <div class="tv-speaker-bar" style="height:8px"></div><div class="tv-speaker-bar" style="height:12px"></div>
+                            </div>
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div class="tv-led" id="led1"></div>
+                                <div style="font-family:'Special Elite';font-size:6px;color:#2a3a1a;">PWR</div>
+                            </div>
+                            <div class="tv-knobs">
+                                <div style="text-align:center;">
+                                    <div class="tv-knob" id="knob-mute1" onclick="toggleMute('1')"></div>
+                                    <div class="tv-channel-label">VOL</div>
+                                </div>
+                                <div style="text-align:center;">
+                                    <div class="tv-knob-lg" id="knob-power1" onclick="toggleTV('1')"></div>
+                                    <div class="tv-channel-label">PWR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tv-caption" id="caption1" style="text-align: center; margin-top: 5px;">[ TAP PWR TO TURN ON ]</div>
+                </div>
+                <div class="featured-box">
+                    <div class="block-title">WELCOME DUDE</div>
+                    <div class="featured-content">
+                        <div class="featured-img">
+                            <img src="https://cdn.discordapp.com/attachments/1125373016407285835/1496897857796706465/IMG_0631.jpg?ex=69eb8e44&is=69ea3cc4&hm=60c41ba4682f103e3752a9f1bf2244a691f3386e0084ab45d7f8e4d61f3fe6d4&" alt="Featured Subject">
+                        </div>
+                        <div style="font-size:11px; color:var(--text-white); line-height: 1.6; text-align: justify; margin-top: 5px;">
+                            Di dunia yang terdistorsi oleh kebisingan, gue memilih untuk menjadi pengamat. Selamat datang di pusat kendali personal gue.<br><br>
+                            Di sini, narasi dibangun bukan melalui kata-kata yang berisik, tapi melalui kurasi visual dan anomali digital.<br><br>
+                            <i>'Waktu itu relatif, tapi selera adalah mutlak.'</i><br><br>
+                            Gue percaya bahwa kehancuran—bahkan hukum fisika sekalipun—bisa melahirkan estetika baru jika dilihat dari sudut pandang yang tepat. Ideals are peaceful, history is violent, dan di antara keduanya, gue sedang merakit masa depan.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card" style="transform: rotateY(2deg); border-top: none;">
+                    <div class="block-title">RECENT UPLOADS</div>
+                    <div class="entry-item">
+                        <div class="square-thumb" style="background-image:url('https://cdn.discordapp.com/attachments/1125371728378470471/1494597525758545982/IMG_9726.png?ex=69ebc1aa&is=69ea702a&hm=013bc12453315dddec1143efecea8e8f69529af88d80f6f3bf3d1382b55e5c8a&');"></div>
+                        <a href="#" style="color:var(--accent-olive);text-decoration:none; font-family:'Special Elite'; font-size: 12px;">VYLEAGUE_ARCHIVE</a>
+                        <p style="font-size:10px;color:#555;margin:3px 0;">Selera adalah mutlak.</p>
+                    </div>
+                    <div class="entry-item" style="border-bottom: none;">
+                        <div class="square-thumb" style="background-image:url('https://cdn.discordapp.com/attachments/1125371728378470471/1495432111040237568/IMG_0126.png?ex=69ec27ef&is=69ead66f&hm=b444b659076a85cf0fbb0ddd84d082ec0b32f1d9c9fd320251a1ab76f256f16c&');"></div>
+                        <a href="#" style="color:var(--accent-olive);text-decoration:none; font-family:'Special Elite'; font-size: 12px;">THE_OPERATOR</a>
+                        <p style="font-size:10px;color:#555;margin:3px 0;">Unauthorized Access Detected.</p>
+                    </div>
+                </div>
+                <div class="featured-box" style="font-size:12px; color:#888; transform: rotateY(1deg);">
+                    <h3 style="color:var(--text-gold);">SYSTEM STATUS</h3>
+                    <p>> Connection: Encrypted</p>
+                    <p>> User: YUSUF</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="archives" class="content-padding">
+        <div class="vault-container">
+            <h2 style="font-family:'Special Elite';color:var(--accent-olive);border-bottom:2px solid var(--accent-olive);margin-bottom:30px;">[ THE BLACKBOX VAULT ]</h2>
+            <div class="card tv-card" style="max-width: 450px; margin: 0 auto 40px auto;">
+                <div class="tv-body">
+                    <div class="tv-brand">VYLEAGUE · MODEL VL-02</div>
+                    <div class="tv-bezel">
+                        <div class="tv-screen" id="screen2">
+                            <img id="img2" src="https://cdn.discordapp.com/attachments/1125373016407285835/1496997914097221672/IMG_0660.png?ex=69ebeb73&is=69ea99f3&hm=b5fb1ec161ecf22a8a5ad1abb90a121e5b7eb31186762a2158f94d2e7562c823&"
+                                style="width:100%;height:100%;object-fit:cover;filter:contrast(1.3) brightness(0.75) saturate(0.6) sepia(0.15);animation:tv-flicker 0.12s infinite;position:relative;z-index:1;display:none;">
+                            <div class="tv-off-screen" id="off2">
+                                <div class="tv-off-dot" id="dot2"></div>
+                            </div>
+                            <div class="tv-glitch" id="glitch2"></div>
+                            <div class="tv-glitch-lines" id="glitchlines2"></div>
+                        </div>
+                    </div>
+                    <div class="tv-controls">
+                        <div class="tv-speaker">
+                             <div class="tv-speaker-bar" style="height:8px"></div><div class="tv-speaker-bar" style="height:12px"></div>
+                        </div>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                            <div class="tv-led" id="led2"></div>
+                            <div style="font-family:'Special Elite';font-size:6px;color:#2a3a1a;">PWR</div>
+                        </div>
+                        <div class="tv-knobs">
+                            <div style="text-align:center;">
+                                <div class="tv-knob" style="opacity:0.3"></div>
+                                <div class="tv-channel-label">VOL</div>
+                            </div>
+                            <div style="text-align:center;">
+                                <div class="tv-knob-lg" id="knob-power2" onclick="toggleTV('2')"></div>
+                                <div class="tv-channel-label">PWR</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tv-caption" id="caption2" style="text-align:center; margin-top:10px;">[ TAP PWR TO DECRYPT ARCHIVE ]</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="vyl-overlay">
+    <div class="vyl-window">
+        <div class="vyl-header">
+            <span class="vyl-header-title">VYLEAGUE FILES</span>
+        </div>
+        <div class="vyl-body">
+            <div id="vyl-status">VYLEAGUE ACCESS<span class="vyl-dots"></span></div>
+            <div class="vyl-progress-wrap">
+                <div class="vyl-fill" id="fill-bar"></div>
+            </div>
+            <div class="vyl-footer" id="footer-area">
+                <div class="vyl-btn" id="btn-done">Done</div>
+                <div class="vyl-btn" onclick="killVyl()">Cancel</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // MAIN SITE SCRIPTS
+    const tvState = { '1': false, '2': false };
+    const muteState = { '1': false };
+
+    function triggerGlitch(id) {
+        const g = document.getElementById('glitch' + id);
+        const gl = document.getElementById('glitchlines' + id);
+        g.classList.remove('active'); gl.classList.remove('active');
+        void g.offsetWidth; 
+        g.classList.add('active'); gl.classList.add('active');
+        setTimeout(() => { g.classList.remove('active'); gl.classList.remove('active'); }, 650);
+    }
+
+    function powerOnSequence(id) {
+        const off = document.getElementById('off' + id);
+        const dot = document.getElementById('dot' + id);
+        const led = document.getElementById('led' + id);
+        const caption = document.getElementById('caption' + id);
+        const knob = document.getElementById('knob-power' + id);
+        dot.style.opacity = '1';
+        setTimeout(() => { dot.style.width = '80%'; dot.style.height = '2px'; }, 80);
+        setTimeout(() => triggerGlitch(id), 200);
+        setTimeout(() => {
+            off.style.opacity = '0';
+            if (id === '1') {
+                const video = document.getElementById('video1');
+                video.classList.add('playing'); video.muted = muteState['1'];
+                video.play().catch(() => {});
+            } else { document.getElementById('img2').style.display = 'block'; }
+            led.classList.add('on'); knob.classList.add('on');
+            caption.textContent = id === '1' ? '[ LIVE_FEED ONLINE ]' : '[ ARCHIVE_DECRYPTED ]';
+            setTimeout(() => { off.style.display = 'none'; }, 150);
+        }, 350);
+    }
+
+    function powerOffSequence(id) {
+        const off = document.getElementById('off' + id);
+        const dot = document.getElementById('dot' + id);
+        const led = document.getElementById('led' + id);
+        const caption = document.getElementById('caption' + id);
+        const knob = document.getElementById('knob-power' + id);
+        triggerGlitch(id);
+        setTimeout(() => {
+            if (id === '1') {
+                const video = document.getElementById('video1');
+                video.pause(); video.classList.remove('playing');
+            } else { document.getElementById('img2').style.display = 'none'; }
+            off.style.display = 'flex'; off.style.opacity = '1';
+            dot.style.width = '3px'; dot.style.height = '3px';
+            led.classList.remove('on'); knob.classList.remove('on');
+            caption.textContent = '[ SIGNAL LOST ]';
+        }, 200);
+        setTimeout(() => { dot.style.opacity = '0'; caption.textContent = '[ TAP PWR TO TURN ON ]'; }, 600);
+    }
+
+    function toggleTV(id) {
+        if (tvState[id]) { tvState[id] = false; powerOffSequence(id); } 
+        else { tvState[id] = true; powerOnSequence(id); }
+    }
+
+    function toggleMute(id) {
+        if (!tvState[id]) return;
+        muteState[id] = !muteState[id];
+        const video = document.getElementById('video' + id);
+        if (video) video.muted = muteState[id];
+    }
+
+    function toPage(idx) {
+        document.getElementById('mainSlider').style.transform = `translateX(-${idx * 100}vw)`;
+        document.getElementById('navContainer').classList.toggle('nav-lifted', idx === 1);
+        document.getElementById('archives').classList.toggle('archive-lifted', idx === 1);
+        document.getElementById('btn-home').classList.toggle('active-nav', idx === 0);
+        document.getElementById('btn-archive').classList.toggle('active-nav', idx === 1);
+    }
+
+    // LOADING SCREEN SCRIPTS
+    (function() {
+        const bar = document.getElementById('fill-bar');
+        const done = document.getElementById('btn-done');
+        const footer = document.getElementById('footer-area');
+        const status = document.getElementById('vyl-status');
+        let val = 0;
+
+        const load = setInterval(() => {
+            val += Math.floor(Math.random() * 5) + 2;
+            if (val >= 100) {
+                val = 100;
+                clearInterval(load);
+                status.innerHTML = "ACCESS GRANTED.";
+                footer.style.display = "flex";
+                done.onclick = function() { killVyl(); };
+            }
+            bar.style.width = val + '%';
+        }, 120);
+    })();
+
+    function killVyl() {
+        const overlay = document.getElementById('vyl-overlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 400);
+    }
+</script>
+
+</body>
+</html>
